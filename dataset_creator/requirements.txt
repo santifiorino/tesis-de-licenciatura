@@ -2,3 +2,5 @@ spotipy
 midi2audio
 pydub
 pedalboard
+soundfile
+pyloudnorm

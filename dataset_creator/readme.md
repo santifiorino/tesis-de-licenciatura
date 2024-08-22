@@ -21,8 +21,7 @@ pip install -r requirements.txt
 - turn notebook into script with params
 - in the 'for each section' loop:
     - if X% of the full audio is silence, don't save it
-- some post-generation volume normalization among all audio files
 
 ### Step 2: Generate prompts
 
-1. Run [ollama](https://ollama.com/) server
+1. Download [ollama](https://ollama.com/) and a local LLM
