@@ -17,7 +17,6 @@ pip install -r requirements.txt
 
 ### TODO
 - turn notebook into script with params
-- post production:
-    - remove leading/trailing silence
-    - if X% of the full audio is silence, remove audio
-    - ¿normalize volume? ¿maybe just add a compressor to the pedalboard fixes it?
+- in the 'for each section' loop:
+    - if X% of the full audio is silence, don't save it
+- some post-generation volume normalization among all audio files
