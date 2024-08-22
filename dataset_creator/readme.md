@@ -14,4 +14,10 @@ pip install -r requirements.txt
 
 1. Put soundfonts files in /instruments/soundfile.sf2
 2. Put MIDI files in /MIDIs/General Genre/Specific Genre/Artist/Song.mid
-3. TODO: Turn notebook into script once it's done
+
+### TODO
+- turn notebook into script with params
+- post production:
+    - remove leading/trailing silence
+    - if X% of the full audio is silence, remove audio
+    - ¿normalize volume? ¿maybe just add a compressor to the pedalboard fixes it?

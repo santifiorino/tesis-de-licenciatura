@@ -1,3 +1,4 @@
 spotipy
-pyfluidsynth
+midi2audio
 pydub
+pedalboard
