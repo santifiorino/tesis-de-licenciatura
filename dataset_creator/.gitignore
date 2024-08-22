@@ -1,0 +1,7 @@
+/instruments/*
+!/instruments/.gitkeep
+
+/MIDIs/*
+!/MIDIs/.gitkeep
+
+.cache
