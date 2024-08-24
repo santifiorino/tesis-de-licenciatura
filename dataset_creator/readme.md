@@ -16,9 +16,15 @@ pip install -r requirements.txt
 
 1. Put soundfonts files in /instruments/soundfile.sf2
 2. Put MIDI files in /MIDIs/General Genre/Specific Genre/Artist/Song.mid
+3. Put Spotify's API credentials in *render_songs.py*
+4. Run script:
+
+```bash
+python3 render_songs.py <number_of_songs>
+```
+
 
 #### TODO
-- turn notebook into script with params
 - in the 'for each section' loop:
     - if X% of the full audio is silence, don't save it
 
