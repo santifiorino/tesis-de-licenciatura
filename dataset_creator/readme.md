@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 ### Step 1: Generate audios and metadata
 
-1. Put soundfonts files in /instruments/soundfile.sf2
+1. Put soundfonts files in /Instrument Type/Instrument.sf2
 2. Put MIDI files in /MIDIs/General Genre/Specific Genre/Artist/Song.mid
 3. Put Spotify's API credentials in *render_songs.py*
 4. Run script:
@@ -23,11 +23,10 @@ pip install -r requirements.txt
 python3 render_songs.py <number_of_songs>
 ```
 
-
 #### TODO
 - in the 'for each section' loop:
     - if X% of the full audio is silence, don't save it
 
 ### Step 2: Generate prompts
 
-1. Download [ollama](https://ollama.com/) and a local LLM
+1. Download [ollama](https://ollama.com/) and Llama 3.1

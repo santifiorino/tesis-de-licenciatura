@@ -51,9 +51,9 @@ class Chorus(Pedal):
 
     def get_params(self):
         return {
-            "rate_hz": random.uniform(0.1, 10.0),
-            "depth": random.uniform(0.0, 1.0),
-            "centre_delay_ms": random.uniform(1.0, 50.0),
+            "rate_hz": random.uniform(0.1, 2.0),
+            "depth": random.uniform(0.0, 0.5),
+            "centre_delay_ms": random.uniform(5.0, 30.0),
             "feedback": 0.0,
             "mix": 0.5
         }
@@ -79,7 +79,7 @@ class Delay(Pedal):
 
     def get_params(self):
         return {
-            "delay_seconds": random.uniform(0.01, 5.0),
+            "delay_seconds": random.uniform(0.01, 1.0),
             "feedback": 0.0,
             "mix": 0.5
         }

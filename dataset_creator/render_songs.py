@@ -21,7 +21,7 @@ CLIENT_ID = 'CLIENT_ID'
 CLIENT_SECRET = 'CLIENT_SECRET'
 
 key_dict = {
-    -1: '', 0: 'C', 1: 'C#', 2: 'D', 3: 'D#', 4: 'E', 5: 'F', 6: 'F#', 7: 'G', 8: 'G#', 9: 'A', 10: 'A#', 11: 'B'
+    0: 'C', 1: 'C#', 2: 'D', 3: 'D#', 4: 'E', 5: 'F', 6: 'F#', 7: 'G', 8: 'G#', 9: 'A', 10: 'A#', 11: 'B'
 }
 
 mode_dict = {
@@ -33,9 +33,10 @@ def main():
 
     auth_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
     sp = spotipy.Spotify(auth_manager=auth_manager)
-
+    safe_remove('./MIDIs/.gitkeep')
     genres = os.listdir("./MIDIs")
-    instruments = os.listdir("./instruments")
+    safe_remove('./instruments/.gitkeep')
+    instruments_types = os.listdir("./instruments")
 
     os.makedirs('tmp', exist_ok=True)
     os.makedirs('renders', exist_ok=True)
@@ -46,10 +47,12 @@ def main():
 
         data = get_random_song(genres)
         print(f"  Song: {data['song']} by {data['artist']}")
-        data['instrument'] = random.choice(instruments)[:-4]
+        instrument_type = random.choice(instruments_types)
+        instrument = random.choice(os.listdir(f'./instruments/{instrument_type}'))
+        data['instrument'] = instrument[:-4] + " " + instrument_type
         print(f"  Instrument: {data['instrument']}")
         render_audio(
-            f'./instruments/{data["instrument"]}.sf2',
+            f'./instruments/{instrument_type}/{instrument}',
             f'./MIDIs/{data["genre"]}/{data["specific_genre"]}/{data["artist"]}/{data["song"]}.mid',
             './tmp/render.wav'
         )
@@ -74,18 +77,21 @@ def main():
             cut_audio = strip_silence(cut_audio)
             if len(cut_audio) < 4 * 1000 or len(cut_audio) > 47 * 1000:
                 continue # Too short or too longs
+            data['duration'] = len(cut_audio) / 1000
 
             cut_audio.export('./tmp/render_cut.wav', format='wav')
 
             data.update({
                 'tempo': int(section['tempo']),
-                'key': key_dict[section['key']],
                 'mode': mode_dict[section['mode']],
-                'pedals': []
             })
+            
+            if section['key'] != -1:
+                data['key'] = key_dict[section['key']]
 
             board = Pedalboard([Compressor()])
             pedals = get_random_pedals()
+            if len(pedals) > 0: data['pedals'] = []
             for pedal in pedals:
                 board.append(pedal.get_pedal())
                 data['pedals'].append({
@@ -97,15 +103,15 @@ def main():
             normalize_loudness(id)
             save_metadata(id, data)
             id += 1
-        os.remove(f'./tmp/render_cut.wav')
-    os.remove(f'./tmp/render.wav')
+    safe_remove('./tmp/render_cut.wav')
+    safe_remove('./tmp/render.wav')
     os.rmdir('tmp')
 
     print("Done!")
 
 def read_input():
     if len(sys.argv) != 2:
-        print("Usage: python render_songs.py <number_of_songs>")
+        print("Usage: python3 render_songs.py <number_of_songs>")
         sys.exit(1)
     try:
         number = int(sys.argv[1])
@@ -115,6 +121,12 @@ def read_input():
         print("Please provide a valid number.")
         sys.exit(1)
     return number
+
+def safe_remove(file):
+    try:
+        os.remove(file)
+    except OSError:
+        pass
 
 def get_random_song(genres):
     # Pick a random song
