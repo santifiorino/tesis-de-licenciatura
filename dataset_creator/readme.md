@@ -23,10 +23,13 @@ pip install -r requirements.txt
 python3 render_songs.py <number_of_songs>
 ```
 
-#### TODO
-- in the 'for each section' loop:
-    - if X% of the full audio is silence, don't save it
-
 ### Step 2: Generate prompts
 
 1. Download [ollama](https://ollama.com/) and Llama 3.1
+
+#### TODO
+- Song rendering
+    - in the 'for each section' loop, if X% of the full audio is silence, don't save it
+- GUI
+    - delete song button
+    - prev/next page

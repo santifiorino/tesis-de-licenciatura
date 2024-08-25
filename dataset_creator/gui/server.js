@@ -36,6 +36,24 @@ const server = http.createServer((req, res) => {
                 res.end('404 Not Found')
                 return
             }
+
+            if (req.method === 'PATCH') {
+                let body = ''
+                req.on('data', chunk => {
+                    body += chunk.toString() // Convert Buffer to string
+                })
+                req.on('end', () => {
+                    console.log('PATCH request received with data:', body)
+                    body = JSON.parse(body)
+                    currentJSON = fs.readFileSync(filePath, 'utf-8')
+                    newJSON = JSON.parse(currentJSON)
+                    newJSON.prompt = body.prompt
+                    fs.writeFileSync(filePath, JSON.stringify(newJSON), 'utf-8')
+                    res.writeHead(200, { 'Content-Type': 'text/plain' })
+                    res.end('PATCH request received')
+                })
+                return
+            }
     
             fs.readFile(filePath, (err, content) => {
     
