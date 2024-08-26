@@ -27,9 +27,13 @@ python3 render_songs.py <number_of_songs>
 
 1. Download [ollama](https://ollama.com/) and Llama 3.1
 
-#### TODO
-- Song rendering
-    - in the 'for each section' loop, if X% of the full audio is silence, don't save it
-- GUI
-    - delete song button
-    - prev/next page
+### (OPTIONAL) Step 3: Visualize and edit audios
+
+1. Install [Node.js](https://nodejs.org/en/download/package-manager)
+2. Run server:
+```bash
+node gui/server.js
+```
+3. Visit http://localhost:3000 to listen to the audios by genre or instrument, edit their promps or delete them!
+
+<img src="https://i.imgur.com/Iwhown6.png"></img>

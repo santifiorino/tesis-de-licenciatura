@@ -18,7 +18,7 @@
       :class="{ 'dark': isDark }"
       @resize.window="watchScreen()"
     >
-      <div class="flex antialiased text-gray-900 bg-zinc-950 min-h-screen">
+      <div class="flex antialiased text-gray-900 bg-zinc-950 h-screen">
         <!-- Loading screen -->
         <div
           x-ref="loading"
@@ -51,7 +51,7 @@
           class="fixed inset-y-0 z-10 flex flex-shrink-0 overflow-hidden bg-white border-r lg:static dark:border-indigo-800 dark:bg-darker focus:outline-none"
         >
           <!-- Sidebar links -->
-          <nav aria-label="Main" class="flex-1 w-64 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto bg-zinc-800">
+          <nav aria-label="Main" class="flex-1 w-80 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto bg-zinc-800">
             <!-- Genre links -->
             <div x-data="{ isActive: false, open: false}">
               <a
@@ -150,6 +150,16 @@
           <h1 id="mainTitle" class="text-3xl text-gray-50 font-bold"></h1>
           <ul id ="audioList" class="collection divide-y"></ul>
           <script src="/gui/index.js"></script>
+          <div id="pageButtons" class="hidden">
+            <button
+              class="bg-transparent hover:bg-violet-700 text-violet-700 font-semibold hover:text-white py-2 px-4 border border-violet-700 hover:border-transparent rounded"
+              onclick="previousPage()"
+              >Previous</button>
+            <button
+              class="bg-transparent hover:bg-violet-700 text-violet-700 font-semibold hover:text-white py-2 px-4 border border-violet-700 hover:border-transparent rounded"
+              onclick="nextPage()"
+              >Next</button>
+          </div>
         </main>
 
         <div

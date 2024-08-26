@@ -1,4 +1,5 @@
 const AUDIOS_PER_PAGE = 4
+let audiosToShow = []
 let page = 0
 let instruments = {}
 let genres = {}
@@ -35,7 +36,7 @@ function addGenre(data) {
             >
                 ${data.genre}
                 <span id="${data.genre}Badge" class="bg-violet-900 text-zinc-50 text-xs font-bold me-2 ml-2 px-2.5 py-0.5 rounded-xl select-none">
-                    0
+                    1
                 </span>
             </a>
         `
@@ -59,7 +60,7 @@ function addInstrument(data) {
             >
                 ${data.instrument}
                 <span id="${data.instrument}Badge" class="bg-violet-900 text-zinc-50 text-xs font-bold me-2 ml-2 px-2.5 py-0.5 rounded-xl select-none">
-                    0
+                    1
                 </span>
             </a>
         `
@@ -68,20 +69,26 @@ function addInstrument(data) {
 }
 
 function showGenre(genre) {
+    page = 0
+    document.getElementById('pageButtons').className = ""
     document.getElementById('mainTitle').innerText = genre + " Songs"
-    const audioList = document.getElementById('audioList')
-    audioList.innerHTML = ""
+    
+    audiosToShow = genres[genre]
     showAudios(genres[genre])
 }
 
 function showInstrument(instrument) {
+    page = 0
+    document.getElementById('pageButtons').className = ""
     document.getElementById('mainTitle').innerText = instrument + " Songs"
-    const audioList = document.getElementById('audioList')
-    audioList.innerHTML = ""
+    
+    audiosToShow = instruments[instrument]
     showAudios(instruments[instrument])
 }
 
 function showAudios(audioIdList) {
+    const audiosOnDisplay = document.getElementById('audioList')
+    audiosOnDisplay.innerHTML = ""
     const startIndex = page * AUDIOS_PER_PAGE;
     const endIndex = Math.min((page + 1) * AUDIOS_PER_PAGE, audioIdList.length)
     audioIdList.slice(startIndex, endIndex).forEach((audioId, index) => {
@@ -100,11 +107,9 @@ function showAudio(id) {
         })
 }
 
-
-
 function audioToListElement(data) {
     const instrumentBadge = `
-    <span class="bg-violet-900 text-zinc-50 text-xs font-bold me-2 ml-2 px-2.5 py-0.5 rounded-xl select-none">
+    <span class="bg-violet-800 text-zinc-50 text-xs font-bold me-2 ml-2 px-2.5 py-0.5 rounded-xl select-none">
     ${data.instrument}
     </span>
     `
@@ -116,7 +121,7 @@ function audioToListElement(data) {
     ).join('');
 
     const audioPlayer = `
-        <audio controls class="flex-shrink-0 w-128">
+        <audio controls class="flex-shrink-0">
             <source src="/renders/${data.id}.wav" type="audio/wav">
             Your browser does not support the audio element.
         </audio>
@@ -157,10 +162,17 @@ function audioToListElement(data) {
                 <div class="w-32 bg-zinc-900 outline outline-zinc-50 rounded-full h-4 mt-2">
                     <div class="bg-green-500 h-4 rounded-full" style="width: ${Math.round(parseFloat(data.danceability) / 1 * 100)}%"></div>
                 </div>
+
+                <button
+                  class="bg-red-500 hover:bg-red-700 text-white font-bold px-4 rounded-full ml-auto border-none outline-none"
+                  onclick="deleteAudio('${data.id}')"
+                >
+                    DELETE
+                </button>
             </div>
             
         </li>
-    `;
+    `
 }
 
 function changePrompt(event, id, newPrompt) {
@@ -176,16 +188,31 @@ function changePrompt(event, id, newPrompt) {
             })
           })
           .then(response => console.log(response))
-          .catch(error => console.error('Error:', error));
+          .catch(error => console.error('Error:', error))
     }
 }
 
 function deleteAudio(id){
     document.getElementById(id).remove()
-    // TODO: Actually remove it from server (DELETE to /renders/id)
+    audiosToShow = audiosToShow.filter(audio => audio !== id)
+    fetch(`/renders/${id}.json`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => console.log(response))
+    .catch(error => console.error('Error:', error))
+}
+
+function previousPage() {
+    if (page*AUDIOS_PER_PAGE - AUDIOS_PER_PAGE < 0) return
+    page -= 1
+    showAudios(audiosToShow)
 }
 
 function nextPage() {
-    console.log("next page")
+    if (page*AUDIOS_PER_PAGE + AUDIOS_PER_PAGE >= audiosToShow.length) return
     page += 1
+    showAudios(audiosToShow)
 }

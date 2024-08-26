@@ -4,6 +4,22 @@ const path = require('path')
 
 const PORT = 3000;
 const rootDir = path.join(__dirname, '..')
+const contentType = {
+    '.html': 'text/html',
+    '.css': 'text/css',
+    '.js': 'text/javascript',
+    '.json': 'application/json',
+    '.wav': 'audio/wav'
+}
+
+function removeFile(filePath) {
+    try {
+        fs.unlinkSync(filePath);
+        console.log('Deleted', filePath);
+    } catch (err) {
+        console.error('Error deleting:', err);
+    }
+}
 
 const server = http.createServer((req, res) => {
 
@@ -43,16 +59,21 @@ const server = http.createServer((req, res) => {
                     body += chunk.toString() // Convert Buffer to string
                 })
                 req.on('end', () => {
-                    console.log('PATCH request received with data:', body)
                     body = JSON.parse(body)
                     currentJSON = fs.readFileSync(filePath, 'utf-8')
                     newJSON = JSON.parse(currentJSON)
                     newJSON.prompt = body.prompt
                     fs.writeFileSync(filePath, JSON.stringify(newJSON), 'utf-8')
+                    console.log('Updated', filePath)
                     res.writeHead(200, { 'Content-Type': 'text/plain' })
                     res.end('PATCH request received')
                 })
                 return
+            }
+
+            if (req.method === 'DELETE') {
+                removeFile(filePath)
+                removeFile(filePath.slice(0, -5) + '.wav')
             }
     
             fs.readFile(filePath, (err, content) => {
@@ -63,27 +84,7 @@ const server = http.createServer((req, res) => {
                     return
                 }
     
-                let contentType = 'text/plain'
-                const extname = path.extname(filePath)
-                switch (extname) {
-                    case '.html':
-                        contentType = 'text/html'
-                        break
-                    case '.css':
-                        contentType = 'text/css'
-                        break
-                    case '.js':
-                        contentType = 'text/javascript'
-                        break
-                    case '.json':
-                        contentType = 'application/json'
-                        break
-                    case '.wav':
-                        contentType = 'audio/wav'
-                        break
-                }
-    
-                res.writeHead(200, { 'Content-Type': contentType })
+                res.writeHead(200, { 'Content-Type': contentType[path.extname(filePath)] })
                 res.end(content)
             })
         })
