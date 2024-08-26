@@ -26,6 +26,10 @@ python3 render_songs.py <number_of_songs>
 ### Step 2: Generate prompts
 
 1. Download [ollama](https://ollama.com/) and Llama 3.1
+2. Run script:
+```bash
+python3 generate_prompts.py
+```
 
 ### (OPTIONAL) Step 3: Visualize and edit audios
 
@@ -34,6 +38,6 @@ python3 render_songs.py <number_of_songs>
 ```bash
 node gui/server.js
 ```
-3. Visit http://localhost:3000 to listen to the audios by genre or instrument, edit their promps or delete them!
+3. Visit http://localhost:3000 to listen to the audios by genre, instrument or effects, edit their promps or delete them
 
 <img src="https://i.imgur.com/Iwhown6.png"></img>

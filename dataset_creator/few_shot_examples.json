@@ -1,0 +1,32 @@
+{
+    "examples": [
+        {
+            "input": "{'song': 'Embraced', 'artist': 'Paul Cardall', 'instrument': 'Organ', 'genre': 'Christian Relaxative', 'tempo': 60, 'key': 'C#', 'mode': 'Major', 'energy': 0.0398, 'danceability': 0.346, 'pedals': [{'name': 'Phaser', 'rate_hz': 7.584981514363318, 'depth': 0.04263510728352049, 'centre_frequency_hz': 698.3204252362798}]}",
+            "output": "Mellow Christian organ music in C# major at 60 BPM with subtle phaser effect"
+        },
+        {
+            "input": "{'song': 'Get Here', 'artist': 'Miss Money', 'instrument': 'Synth Bass', 'genre': 'Pittsburgh Rap', 'tempo': 169, 'key': 'F#', 'mode': 'Minor', 'energy': 0.734, 'danceability': 0.537, 'pedals': []}",
+            "output": "Dark synth bass in F# minor, 169 BPM, Pittsburgh rap style"
+        },
+        {
+            "input": "{'song': 'Gathered in the Love of Christ Canon in D', 'artist': 'Marty Haugen', 'instrument': 'Flute', 'genre': 'Rosary', 'tempo': 74, 'key': 'D', 'mode': 'Major', 'energy': 0.175, 'danceability': 0.308, 'pedals': [{'name': 'Bitcrush', 'bit_depth': 16}]}",
+            "output": "Soft flute in D Major at 74 BPM, calm and meditative"
+        },
+        {
+            "input": "{'song': 'Ojitos Verdes', 'artist': 'Los Llaneros De La Frontera', 'instrument': 'Rhodes', 'genre': 'Cumbia Chilena', 'tempo': 0, 'key': 'D', 'mode': 'Major', 'energy': 0.595, 'danceability': 0.679, 'pedals': [{'name': 'Reverb', 'room_size': 0.44167416619327415, 'damping': 0.19601038763397205, 'wet_level': 0.3973790416467937, 'dry_level': 0.5251665135025636, 'width': 0.1881927763697252, 'freeze_mode': 0.9361007644381942}]}",
+            "output": "Warm Cumbia Chilena in D Major, slow Rhodes with soft reverb"
+        },
+        {
+            "input": "{'song': 'Dance With Me (LP Version)', 'artist': 'Debelah Morgan', 'instrument': 'House Piano', 'genre': 'Urban Contemporary', 'tempo': 115, 'key': 'G', 'mode': 'Minor', 'energy': 0.674, 'danceability': 0.85, 'pedals': [{'name': 'Bitcrush', 'bit_depth': 8}]}",
+            "output": "Upbeat urban music in G minor at 115 BPM, danceable rhythm played on a house piano with bitcrushed tone"
+        },
+        {
+            "input": "{'song': 'Fugue In D Minor (JS Bach)', 'artist': 'Lennie Tristano', 'instrument': 'Synth Bass', 'genre': 'Avant-Garde Jazz', 'tempo': 138, 'key': 'E', 'mode': 'Minor', 'energy': 0.219, 'danceability': 0.312, 'pedals': [{'name': 'Reverb', 'room_size': 0.6817294461011679, 'damping': 0.9966620555007254, 'wet_level': 0.08364639607054147, 'dry_level': 0.6124006810402303, 'width': 0.29436509303463365, 'freeze_mode': 0.8632431158049467}, {'name': 'Chorus', 'rate_hz': 3.1957353827956827, 'depth': 0.09619190337556893, 'centre_delay_ms': 31.7703901938211}]}",
+            "output": "Deep, atmospheric jazz synth bass in E minor, 138 BPM, with heavy reverb and subtle chorus effect"
+        },
+        {
+            "input": "{'song': 'Love-Hate Mashup Mix 7', 'artist': 'DJ Godfather', 'instrument': 'Electric Piano', 'genre': 'Ghettotech', 'tempo': 112, 'key': 'E', 'mode': 'Major', 'energy': 0.73, 'danceability': 0.7, 'pedals': [{'name': 'Distortion', 'drive_db': 10}]}",
+            "output": "Fast energetic E Major Ghettotech with electric piano and heavy distortion"
+        }
+    ]
+}
