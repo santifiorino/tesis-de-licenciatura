@@ -4,4 +4,6 @@
 /MIDIs/*
 !/MIDIs/.gitkeep
 
+/renders
+
 .cache

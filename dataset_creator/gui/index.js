@@ -42,22 +42,16 @@ function sideBarCategoryElement(categoryName) {
     `
 }
 
-fetch('/filenames')
+fetch('/audiosMetadata')
     .then(response => response.json())
     .then(files => {
-        const jsonFiles = files.filter(file => file.endsWith('.json'))
-        jsonFiles.forEach(file => {
-            const id = file.slice(0, -5)
-            fetch(`/renders/${file}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.id = id
-                    addGenre(data)
-                    addInstrument(data)
-                    addEffect(data)
-                    idToData[id] = data
-                })
-            })
+        const audiosMetadata = files.content
+        audiosMetadata.forEach(data => {
+            addGenre(data)
+            addInstrument(data)
+            addEffect(data)
+            idToData[data.id] = data
+        })
     })
 
 function addGenre(data) {
@@ -166,7 +160,7 @@ function idToListElement(audioId) {
 
     const audioPlayer = `
         <audio controls class="flex-shrink-0">
-            <source src="/renders/${data.id}.wav" type="audio/wav">
+            <source src="/${data.id}.wav" type="audio/wav">
             Your browser does not support the audio element.
         </audio>
     `
@@ -222,7 +216,7 @@ function idToListElement(audioId) {
 function changePrompt(event, id, newPrompt) {
     if (event.key === 'Enter') {
         event.target.blur();
-        fetch(`/renders/${id}.json`, {
+        fetch(`/${id}.json`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
@@ -239,7 +233,7 @@ function changePrompt(event, id, newPrompt) {
 function deleteAudio(id){
     document.getElementById(id).remove()
     audiosToShow = audiosToShow.filter(audio => audio !== id)
-    fetch(`/renders/${id}.json`, {
+    fetch(`/${id}.json`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'

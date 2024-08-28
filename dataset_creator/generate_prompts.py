@@ -6,7 +6,7 @@ from langchain_core.prompts import (
     FewShotChatMessagePromptTemplate,
 )
 
-prompt = """
+system_prompt = """
 You are a helpful assistant that turns a .json file into a human-written-like prompt for a music generation AI model.
 The prompt should be as short as possible and very straightforward.
 It should be a description of the desired sound, not a petition, so avoid verbs.
@@ -40,7 +40,7 @@ def main():
 
     final_prompt = ChatPromptTemplate.from_messages(
         [
-            ("system", "You are a helpful assistant that turns a .json file into a human-written-like prompt for a music generation AI model. The prompt should be as short as possible and very straightforward. It should be a description of the desired sound, not a petition, so avoid verbs. Reply only with the prompt, no extra text or quotes. Ignore song title and artist unless they're extremely popular. State the exact tempo (BPM)"),
+            ("system", system_prompt),
             few_shot_prompt,
             ("human", "{input}"),
         ]
