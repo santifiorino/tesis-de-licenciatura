@@ -52,8 +52,19 @@ const server = http.createServer((req, res) => {
                     return
                 default:
                     try {
-                        if (path.extname(url) == '.wav') // .wav files are in ../renders/id.wav
+                        // wavs are streamed
+                        if (path.extname(url) == '.wav'){
                             contentPath = path.join(__dirname, '..', 'renders', url)
+                            const stat = fs.statSync(contentPath);
+                            res.writeHead(200, {
+                                'Content-Type': 'audio/wav',
+                                'Content-Length': stat.size
+                            })
+                            const readStream = fs.createReadStream(contentPath);
+                            readStream.pipe(res);
+                            return
+                        }
+                        // everything else is read from disk
                         content = fs.readFileSync(contentPath)
                         res.writeHead(200, { 'Content-Type': contentType[path.extname(contentPath)] })
                         res.end(content)
@@ -71,7 +82,7 @@ const server = http.createServer((req, res) => {
                 body += chunk.toString()
             })
             req.on('end', () => {
-                contentPath = path.join(__dirname, '..', 'renders', url) // in parent dir: ../renders/id.json
+                contentPath = path.join(__dirname, '..', 'renders', url)
                 const currentJSON = fs.readFileSync(contentPath, 'utf-8')
                 body = JSON.parse(body)
                 let newJSON = JSON.parse(currentJSON)
@@ -91,9 +102,9 @@ const server = http.createServer((req, res) => {
             })
             break
         case 'DELETE':
-            // Remove the metadata and the audio file
+            // Remove both the metadata and the audio file
             try {
-                contentPath = path.join(__dirname, '..', 'renders', url) // in parent dir:  ../renders/id.json
+                contentPath = path.join(__dirname, '..', 'renders', url)
                 removeFile(contentPath)
                 removeFile(contentPath.slice(0, -5) + '.wav')
                 res.writeHead(200, { 'Content-Type': 'text/plain' })

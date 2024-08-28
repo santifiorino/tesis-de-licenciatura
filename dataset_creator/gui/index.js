@@ -122,7 +122,7 @@ function showEffect(effect) {
 
 function showNewList(newTitle, newList) {
     page = 0
-    document.getElementById('prevNextButtons').className = ""
+    document.getElementById('prevNextButtons').className = "mt-5"
     document.getElementById('mainTitle').innerText = newTitle
     audiosToShow = newList
     updateShowingAudios()
@@ -141,7 +141,7 @@ function updateShowingAudios(){
 function showAudio(audioId) {
     const audioList = document.getElementById('audioList')
     const newItemHTML = idToListElement(audioId);
-    audioList.insertAdjacentHTML('beforeend', newItemHTML)
+    audioList.insertAdjacentHTML('beforeend', '<li></li>' + newItemHTML + '<li></li>')
 }
 
 function idToListElement(audioId) {
@@ -178,16 +178,16 @@ function idToListElement(audioId) {
             <div class="flex min-w-0 gap-x-4 items-center">
                 ${audioPlayer}
                 <div class="min-w-0 flex-auto">
-                    <p class="text-md font-black leading-6 text-zinc-50">
+                    <p class="text-xl font-bold leading-6 text-zinc-50">
                         ${data.song}
                         ${instrumentBadge}
                         ${effectsBadges}
                     </p>
-                    <p class="mt-1 truncate text-xs font-semibold leading-5 text-zinc-600">${data.artist} | ${data.specific_genre}</p>
+                    <p class="mt-1 truncate text-md font-semibold leading-5 text-zinc-600">${data.artist} | ${data.specific_genre}</p>
                 </div>
             </div>
 
-            <div class="flex gap-x-4 divide-x">
+            <div class="flex gap-x-4 divide-x mt-2">
                 <p class="text-xl font-bold text-zinc-50">${data.tempo} BPM</p>
                 <p class="text-xl font-bold text-zinc-50 pl-4">${data.key} ${data.mode}</p>
 
@@ -214,6 +214,7 @@ function idToListElement(audioId) {
 }
 
 function changePrompt(event, id, newPrompt) {
+    idToData[id].prompt = newPrompt
     if (event.key === 'Enter') {
         event.target.blur();
         fetch(`/${id}.json`, {
@@ -225,23 +226,30 @@ function changePrompt(event, id, newPrompt) {
               prompt: newPrompt
             })
           })
-          .then(response => console.log(response))
-          .catch(error => console.error('Error:', error))
+        .catch(error => console.error('Error:', error))
     }
+}
+
+function removeIdFromDictionaries(id, ...dicts) {
+    dicts.forEach(dict => {
+      Object.keys(dict).forEach(key => {
+        dict[key] = dict[key].filter(item => item !== id);
+      })
+    })
 }
 
 function deleteAudio(id){
     document.getElementById(id).remove()
     audiosToShow = audiosToShow.filter(audio => audio !== id)
+    removeIdFromDictionaries(id, genreToIds, instrumentToIds, effectToId)
+    delete idToData[id]
+    updateShowingAudios()
     fetch(`/${id}.json`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         }
     })
-    .then(
-        updateShowingAudios()
-    )
     .catch(error => console.error('Error:', error))
 }
 
