@@ -1,9 +1,3 @@
-/instruments/*
-!/instruments/.gitkeep
-
-/MIDIs/*
-!/MIDIs/.gitkeep
+/clean_midi
 
 /renders
-
-.cache
